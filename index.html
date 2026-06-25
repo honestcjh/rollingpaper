@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -52,12 +51,16 @@ a:hover{text-decoration:underline}
   background:linear-gradient(180deg,#e8f4fc 0%,#d2eaf8 100%);
   border-bottom:1px solid var(--line);
   padding:9px 12px;
-  display:flex;align-items:center;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;
 }
-.tbar-ico{font-size:14px}
-.tbar-ttl{font-size:14px;color:#2e5876;letter-spacing:.3px}
-.tbar-sub{font-size:10px;color:var(--muted);margin-left:auto}
-.tbar-btn{font-size:9px;color:#7a9aaa;letter-spacing:1px;margin-left:8px}
+.tbar-left {
+  display:flex;align-items:center;gap:8px;overflow:hidden;
+}
+.tbar-ico{font-size:14px;flex-shrink:0}
+.tbar-text{display:flex;flex-direction:column;overflow:hidden;}
+.tbar-ttl{font-size:14px;font-weight:bold;color:#2e5876;letter-spacing:.3px;white-space:nowrap;}
+.tbar-sub{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tbar-btn{font-size:9px;color:#7a9aaa;letter-spacing:1px;white-space:nowrap;flex-shrink:0;margin-left:8px;}
 
 /* ── 마퀴 ── */
 .mq{background:#f0f8fd;border-bottom:1px solid var(--line2);overflow:hidden;white-space:nowrap}
@@ -110,7 +113,7 @@ a:hover{text-decoration:underline}
   padding:3px 7px;
 }
 .mini-bar-ttl{font-size:11px;color:#2e5876;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
-.mini-bar-btns{font-size:9px;color:#8ab0c8;letter-spacing:1px;flex-shrink:0}
+.mini-bar-btns{font-size:11px;color:#8ab0c8;flex-shrink:0}
 
 .mini-body{display:flex;align-items:center;gap:6px;padding:7px 9px;background:#f8fcff}
 .mini-ico{font-size:13px}
@@ -211,10 +214,14 @@ button{font-family:inherit;font-size:11px;cursor:pointer}
 <div class="ver">v2.0</div>
 <div class="frame">
   <div class="tbar">
-    <span class="tbar-ico">♡</span>
-    <span class="tbar-ttl">밀라노에서 남기는 롤링페이퍼</span>
-    <span class="tbar-sub">KAIST PMBA 14기 · Bocconi School of Management</span>
-    <span class="tbar-btn">─ □ ✕</span>
+    <div class="tbar-left">
+      <span class="tbar-ico">♡</span>
+      <div class="tbar-text">
+        <div class="tbar-ttl">밀라노에서 남기는 롤링페이퍼</div>
+        <div class="tbar-sub">KAIST PMBA 14기 · Bocconi School of Management</div>
+      </div>
+    </div>
+    <div class="tbar-btn">─ □ ✕</div>
   </div>
   <div class="mq"><span>★ 김상원 교수님 생신 축하드립니다 ★ 밀라노 원우들 사랑합니다 ♡ 2026.06.28 오후 2시 전체 개봉 ★ 비밀번호를 적어야 미공개 기간에도 본인 글을 열어볼 수 있어요 ★</span></div>
   <div id="demoflag"></div>
@@ -348,7 +355,7 @@ function utilRow(extra=""){
 }
 function lockBanner(){
   if(isOpen()) return `<div class="lockban openban">🔓 개봉 완료! 모두의 마음을 읽어보세요 ♡</div>`;
-  return `<div class="lockban">🔒 <b>비밀편지 보관 중</b> &nbsp;·&nbsp; 한국시간 2026.06.28 오후 2시 개봉 예정
+  return `<div class="lockban">🔒 <b>비밀편지 보관 중</b> &nbsp;·&nbsp; 한국시간 2026.06.28<br>오후 2시 개봉 예정
     <span class="cd" data-countdown>${countdownText()}</span></div>`;
 }
 
@@ -373,7 +380,7 @@ function viewLobby(){
     return `<div class="mini${r.isVip?" vip":""}" onclick="go('${r.id}')">
       <div class="mini-bar">
         <span class="mini-bar-ttl">${esc(d.l+r.name+(r.title?" "+r.title:"")+d.r)}</span>
-        <span class="mini-bar-btns">─ □ ✕</span>
+        <span class="mini-bar-btns">↗</span>
       </div>
       <div class="mini-body">
         <span class="mini-ico">${r.isVip?"🎂":"🏠"}</span>
@@ -385,7 +392,7 @@ function viewLobby(){
   const vip=RECIPIENTS.filter(r=>r.isVip).map(card).join("");
   const rest=RECIPIENTS.filter(r=>!r.isVip).map(card).join("");
   return `${utilRow()}${lockBanner()}
-    <p class="lead">미니홈피 주인을 선택하세요. 방명록 통 수는 개봉 전에도 볼 수 있어요.</p>
+    <p class="lead">미니홈피 주인을 선택하세요.<br>방명록 통 수는 개봉 전에도 볼 수 있어요.</p>
     <div class="grid">${vip}${rest}</div>`;
 }
 
@@ -426,7 +433,7 @@ function profileForm(id,p){
   return `<div class="box"><h3>모두에게 하고 싶은 말</h3>
     <div class="row"><textarea id="pf_body" maxlength="800" placeholder="여기에 적어주세요 ♡">${p&&p.content?esc(p.content):""}</textarea></div>
     <div class="row half"><input id="pf_pw" type="password" maxlength="20" placeholder="${p&&p.pwHash?"기존 비밀번호 입력":"비밀번호 (수정용, 선택)"}"></div>
-    <div class="hint">비밀번호를 정해두면 본인만 수정할 수 있어요.${p&&p.pwHash?" 이 소개글은 비밀번호로 보호되어 있어요.":""}</div>
+    <div class="hint">비밀번호를 정해두면 본인만 수정할 수 있어요.<br>${p&&p.pwHash?" 이 소개글은 비밀번호로 보호되어 있어요.":""}</div>
     <div class="err" id="pf_err"></div>
     <div style="margin-top:8px;display:flex;gap:6px">
       <button class="btn pink" onclick="submitProfile('${id}')">저장</button>
@@ -507,7 +514,7 @@ function writeForm(id){
       <div class="half"><input id="w_pw" type="password" maxlength="20" placeholder="비밀번호 (수정·삭제용, 선택)"></div>
     </div>
     <div class="row"><textarea id="w_body" maxlength="1000" placeholder="따뜻한 한마디를 남겨주세요 ♡"></textarea></div>
-    <div class="hint">비밀번호를 적으면 미공개 기간에도 🔑 내 글 열기로 열어보고 수정·삭제할 수 있어요.</div>
+    <div class="hint">비밀번호를 적으면 미공개 기간에도<br>🔑 내 글 열기로 열어보고 수정·삭제할 수 있어요.</div>
     <div class="err" id="w_err"></div>
     <div style="margin-top:8px"><button class="btn pink" onclick="submitMsg('${id}')">방명록 등록</button></div>
   </div>`;
@@ -610,5 +617,3 @@ async function doDelete(kind,oid,mid){
 </script>
 </body>
 </html>
-HTMLEOF
-echo "bytes:"; wc -c < /mnt/user-data/outputs/index.html
