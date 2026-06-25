@@ -1,201 +1,289 @@
+cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>♡ PMBA 14기 밀라노 롤링페이퍼 ♡</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>밀라노에서 남기는 롤링페이퍼 ♡</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css"/>
 <style>
-  :root{
-    --bg:#b9d6ef; --frame:#5a93cf; --ink:#2b3a4a;
-    --pink:#ff5fa2; --blue:#4f9fe6;
-    --card-a:#fff6fb; --card-b:#f1f8ff;
-    --gold:#ffd34d; --gold-bd:#e0a800; --dash:#9bbfe0;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{
-    font-family:'Galmuri11','Galmuri9','Galmuri',monospace;color:var(--ink);
-    background:
-      repeating-linear-gradient(0deg,#0000 0 22px,#ffffff22 22px 23px),
-      repeating-linear-gradient(90deg,#0000 0 22px,#ffffff22 22px 23px),var(--bg);
-    -webkit-font-smoothing:none;image-rendering:pixelated;
-    padding:14px;line-height:1.7;font-size:14px;
-  }
-  a{color:var(--blue);text-decoration:none}
-  .frame{max-width:760px;margin:0 auto;background:#fff;border:3px solid var(--frame);
-    border-radius:10px;box-shadow:6px 6px 0 #4a83bf;overflow:hidden}
-  .titlebar{background:linear-gradient(90deg,#ff9ecb,#8fc7ff);color:#fff;
-    text-shadow:1px 1px 0 #00000033;padding:12px 14px;font-size:17px;
-    border-bottom:3px solid var(--frame);display:flex;align-items:center;gap:8px}
-  .titlebar small{font-size:11px;opacity:.95;margin-left:auto;text-shadow:none;color:#3a4a5a}
-  .marquee{background:#fffbe6;border-bottom:2px dashed var(--dash);overflow:hidden;
-    white-space:nowrap;font-size:12px;color:#a05}
-  .marquee span{display:inline-block;padding:5px 0;animation:scroll 18s linear infinite}
-  @keyframes scroll{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
-  .pad{padding:14px}
+/* =====================================================
+   v2.0  싸이월드 감성 재설계
+   - 1px 얇은 선 / 매트 하늘색 배경 / 도트 패턴
+   - 최대 border-radius 4px / 그림자 없는 flat 카드
+   ===================================================== */
+:root{
+  --bg:#c5daea;
+  --dot:#aecce2;
+  --panel:#ffffff;
+  --line:#a8c4da;
+  --line2:#cde0ee;
+  --ink:#3a4d5e;
+  --muted:#7a9aaa;
+  --pink:#e87fa0;
+  --pink-lt:#fce8ef;
+  --blue:#6a9fc0;
+  --blue-lt:#e5f1f9;
+  --gold:#c9970a;
+  --gold-lt:#fdf3d0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Galmuri11','Galmuri9',monospace;color:var(--ink);font-size:12px;line-height:1.7;
+  -webkit-font-smoothing:none;image-rendering:pixelated}
+body{
+  background-color:var(--bg);
+  background-image:radial-gradient(circle,var(--dot) 1px,transparent 1px);
+  background-size:18px 18px;
+  padding:16px;min-height:100vh;
+}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
 
-  .util{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-  .backlink{font-size:12px}
-  .refresh{font-size:11px;background:linear-gradient(#fff,#ffe9f3);color:#c8246e;
-    border:2px solid #ffb8d6;border-radius:6px;box-shadow:2px 2px 0 #ffb8d6;
-    padding:5px 11px;cursor:pointer;font-family:inherit;margin-left:auto}
-  .refresh:active{transform:translate(2px,2px);box-shadow:none}
-  .updated{font-size:10px;color:#8a9aa8}
+/* ── 버전 배지 ── */
+.ver{position:fixed;top:6px;left:8px;font-size:9px;color:#fff;opacity:.55;
+  background:#3a6a88;padding:1px 5px;border-radius:2px;pointer-events:none;z-index:999}
 
-  .lockban{border:2px dashed var(--gold-bd);background:#fff7df;border-radius:8px;
-    padding:10px 12px;margin-bottom:14px;font-size:12.5px;color:#7a5b00;text-align:center}
-  .lockban b{color:#b30059}
-  .lockban .cd{display:block;margin-top:4px;font-size:13px;color:#2b3a4a}
-  .openban{border-color:#7bb86a;background:#effbe9;color:#2f6b1f}
+/* ── 바깥 프레임 ── */
+.frame{max-width:720px;margin:0 auto;background:var(--panel);
+  border:1px solid var(--line);box-shadow:2px 2px 0 var(--line)}
 
-  /* ===== Lobby : 미니홈피 창 ===== */
-  .lead{font-size:12.5px;color:#5b6b7a;margin:2px 0 12px}
-  .grid{display:flex;flex-wrap:wrap;gap:12px}
-  .mini{width:calc(50% - 6px);cursor:pointer;background:#fff;border:2px solid #6d9ed6;
-    border-radius:5px;box-shadow:3px 3px 0 #4a83bf;overflow:hidden;transition:transform .05s}
-  .mini:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #4a83bf}
-  .mini:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #4a83bf}
-  .mini-bar{display:flex;align-items:center;justify-content:space-between;
-    background:linear-gradient(#bfe0ff,#8fc3f2);border-bottom:2px solid #6d9ed6;padding:4px 7px}
-  .mini-title{font-size:13px;color:#1f4d7a}
-  .mini-win{font-size:9px;color:#3a6a98;letter-spacing:1px}
-  .mini-bd{display:flex;align-items:center;gap:7px;padding:9px;background:#f3f9ff;flex-wrap:wrap}
-  .mini-ico{font-size:16px}
-  .mini-cnt{font-size:11px;color:#b3005e;background:#ffe9f3;border:1px solid #ffb8d6;
-    border-radius:3px;padding:1px 7px}
-  .mini-cnt b{color:#e0246e}
-  .mini-enter{margin-left:auto;font-size:11px;color:#4f9fe6}
-  .mini.vip{width:100%;border:2px solid var(--gold-bd);box-shadow:3px 3px 0 var(--gold)}
-  .mini.vip .mini-bar{background:linear-gradient(#ffe9a8,#ffd34d);border-bottom-color:var(--gold-bd)}
-  .mini.vip .mini-title{color:#7a4d00;font-size:14px}
-  .mini.vip .mini-win{color:#a87a1a}
-  .mini.vip .mini-bd{background:#fffaf0}
+/* ── 타이틀바 ── */
+.tbar{
+  background:linear-gradient(180deg,#e8f4fc 0%,#d2eaf8 100%);
+  border-bottom:1px solid var(--line);
+  padding:9px 12px;
+  display:flex;align-items:center;gap:8px;
+}
+.tbar-ico{font-size:14px}
+.tbar-ttl{font-size:14px;color:#2e5876;letter-spacing:.3px}
+.tbar-sub{font-size:10px;color:var(--muted);margin-left:auto}
+.tbar-btn{font-size:9px;color:#7a9aaa;letter-spacing:1px;margin-left:8px}
 
-  /* ===== Guestbook ===== */
-  .tabs{display:flex;gap:4px;border-bottom:2px solid var(--frame);margin-bottom:14px}
-  .tab{padding:6px 16px;font-size:13px;border:2px solid var(--frame);border-bottom:none;
-    border-radius:8px 8px 0 0;background:#e7f1fb;color:#6b8299;cursor:pointer;position:relative;top:2px}
-  .tab.on{background:#fff;color:var(--ink);border-bottom:2px solid #fff}
-  .ghead{font-size:16px;margin:0 0 12px}
+/* ── 마퀴 ── */
+.mq{background:#f0f8fd;border-bottom:1px solid var(--line2);overflow:hidden;white-space:nowrap}
+.mq span{display:inline-block;font-size:10px;color:var(--pink);padding:4px 0;
+  animation:mqs 22s linear infinite}
+@keyframes mqs{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
 
-  .msg{border:2px dashed var(--dash);border-radius:8px;padding:11px 12px;margin-bottom:12px;background:var(--card-a)}
-  .msg:nth-child(even){background:var(--card-b)}
-  .msg .from{color:var(--pink);font-size:13px}
-  .msg .from::before{content:"From. "}
-  .msg .body{margin:6px 0 2px;white-space:pre-wrap;word-break:break-word}
-  .msg .acts{margin-top:4px}
-  .msg .acts button{margin-right:4px}
-  .peek{font-size:10px;color:#7a4d00;background:#fff3d6;border:1px dashed #e0a800;
-    border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:5px}
+/* ── 데모 플래그 ── */
+.demoflag{font-size:10px;color:#a05;text-align:center;padding:4px 8px;
+  background:#fff0f5;border-bottom:1px solid #f4c0d0}
+.demoflag button{margin-left:6px}
 
-  .sealed{display:flex;align-items:center;gap:10px;color:#7a6a8a}
-  .sealed .ico{font-size:22px}
-  .sealed .seal-from{color:var(--pink);font-size:12px}
-  .sealed .seal-note{font-size:11px;color:#9a8aa8}
+/* ── 패드 ── */
+.pad{padding:12px 14px}
 
-  .replies{margin:8px 0 0 14px;border-left:3px dotted #d3b8e0;padding-left:10px}
-  .reply{background:#faf3ff;border:1px dashed #d9bff0;border-radius:6px;padding:7px 9px;margin-top:6px}
-  .reply .from{color:#8a3fb0;font-size:12px}
-  .reply .from::before{content:"┗ "}
-  .reply .body{white-space:pre-wrap;word-break:break-word;margin:3px 0 1px}
+/* ── 유틸 행 ── */
+.util{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.backlink{font-size:11px;color:var(--blue)}
+.rf-btn{
+  margin-left:auto;font-family:inherit;font-size:11px;cursor:pointer;
+  background:var(--blue-lt);color:var(--blue);
+  border:1px solid var(--line);padding:3px 10px;
+}
+.rf-btn:hover{background:var(--line2)}
+.rf-btn:active{filter:brightness(.95)}
+.updated{font-size:10px;color:var(--muted)}
 
-  .profile-card{border:2px solid var(--frame);border-radius:6px;background:#fbfdff;padding:12px;margin-bottom:14px}
-  .profile-head{font-size:13px;color:var(--blue);border-bottom:2px dotted var(--dash);padding-bottom:6px;margin-bottom:8px}
-  .profile-body{white-space:pre-wrap;word-break:break-word}
+/* ── 타임락 배너 ── */
+.lockban{
+  border:1px solid #c9b050;background:var(--gold-lt);
+  padding:7px 10px;margin-bottom:12px;font-size:11px;color:#7a5b00;text-align:center;
+}
+.lockban b{color:var(--pink)}
+.lockban .cd{display:block;margin-top:3px;font-size:12px;color:var(--ink)}
+.openban{border-color:#8abf78;background:#edf7e6;color:#2f6b1f}
 
-  .box{border:2px solid var(--frame);border-radius:8px;background:#f7fbff;padding:12px;margin-top:14px}
-  .box h3{margin:0 0 8px;font-size:13px;color:var(--blue)}
-  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-  input[type=text],input[type=password],textarea{font-family:inherit;font-size:13px;color:var(--ink);
-    border:2px solid var(--dash);border-radius:5px;padding:7px 9px;background:#fff;width:100%}
-  input:focus,textarea:focus{outline:none;border-color:var(--pink)}
-  textarea{min-height:64px;resize:vertical}
-  .half{flex:1;min-width:120px}
-  .hint{font-size:11px;color:#8a9aa8;margin-top:-3px}
-  button{font-family:inherit;font-size:12px;cursor:pointer;color:#fff;background:var(--blue);
-    border:2px solid #2e72b8;border-radius:6px;padding:6px 12px;box-shadow:2px 2px 0 #2e72b8}
-  button:active{transform:translate(2px,2px);box-shadow:none}
-  button.pink{background:var(--pink);border-color:#c8246e;box-shadow:2px 2px 0 #c8246e}
-  button.ghost{background:#eef3f8;color:#5b6b7a;border-color:#b9c6d4;box-shadow:2px 2px 0 #b9c6d4}
-  button.tiny{font-size:11px;padding:3px 8px;box-shadow:1px 1px 0 currentColor}
-  button.tiny.ghost{box-shadow:1px 1px 0 #b9c6d4}
+/* ── 로비 그리드 ── */
+.lead{font-size:11px;color:var(--muted);margin:0 0 10px}
+.grid{display:flex;flex-wrap:wrap;gap:8px}
 
-  .empty{color:#8a9aa8;font-size:12.5px;text-align:center;padding:18px 0}
-  .demoflag{font-size:11px;color:#a05;text-align:center;padding:6px;background:#fff0f5;border-bottom:2px dashed #ffb8d6}
-  .demoflag button{margin-left:6px}
-  .foot{font-size:10.5px;color:#7e93a6;text-align:center;padding:10px}
-  .err{color:#c8246e;font-size:12px;margin-top:6px}
+/* 미니홈피 창 카드 */
+.mini{width:calc(50% - 4px);cursor:pointer;background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:box-shadow .08s}
+.mini:hover{box-shadow:1px 1px 0 var(--blue)}
+.mini:active{filter:brightness(.97)}
+
+.mini-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(180deg,#ddeef9,#c8e3f5);
+  border-bottom:1px solid var(--line);
+  padding:3px 7px;
+}
+.mini-bar-ttl{font-size:11px;color:#2e5876;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+.mini-bar-btns{font-size:9px;color:#8ab0c8;letter-spacing:1px;flex-shrink:0}
+
+.mini-body{display:flex;align-items:center;gap:6px;padding:7px 9px;background:#f8fcff}
+.mini-ico{font-size:13px}
+.mini-badge{font-size:10px;color:var(--pink);background:var(--pink-lt);border:1px solid #f4c0d0;padding:1px 6px}
+.mini-enter{margin-left:auto;font-size:10px;color:var(--muted)}
+
+/* VIP 교수님 */
+.mini.vip{width:100%;border-color:var(--gold)}
+.mini.vip .mini-bar{background:linear-gradient(180deg,#fef3c7,#fde58a);border-bottom-color:var(--gold)}
+.mini.vip .mini-bar-ttl{font-size:12px;color:#7a4d00}
+.mini.vip .mini-bar-btns{color:#c9970a}
+.mini.vip .mini-body{background:#fffdf0}
+.mini.vip .mini-badge{color:var(--gold);background:#fef9e0;border-color:#f0d070}
+
+/* ── 탭 ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:12px}
+.tab{
+  padding:5px 14px;font-size:11px;cursor:pointer;
+  border:1px solid transparent;border-bottom:none;
+  color:var(--muted);background:transparent;position:relative;top:1px;
+}
+.tab.on{
+  background:var(--panel);color:var(--ink);
+  border-color:var(--line);border-bottom:1px solid var(--panel);
+}
+.tab:hover:not(.on){color:var(--ink)}
+
+/* ── 방명록 헤더 ── */
+.ghead{font-size:13px;margin-bottom:10px;color:var(--ink)}
+
+/* ── 메시지 카드 ── */
+.msg{border:1px solid var(--line2);padding:9px 10px;margin-bottom:8px;background:var(--panel)}
+.msg:nth-child(even){background:#fafcff}
+.msg .from{color:var(--pink);font-size:11px}
+.msg .from::before{content:"From. "}
+.msg .body{margin:5px 0 3px;white-space:pre-wrap;word-break:break-word;font-size:12px}
+.msg .acts{margin-top:4px;display:flex;gap:4px;flex-wrap:wrap}
+
+.sealed{display:flex;align-items:center;gap:8px}
+.sealed .sico{font-size:18px}
+.sealed .sfrom{color:var(--pink);font-size:11px;display:block}
+.sealed .snote{font-size:10px;color:var(--muted);display:block}
+
+.peek-badge{font-size:10px;color:var(--gold);background:var(--gold-lt);
+  border:1px solid #e8d070;padding:1px 6px;display:inline-block;margin-bottom:4px}
+
+/* 답글 */
+.replies{margin:6px 0 0 12px;border-left:2px dotted var(--line2);padding-left:8px}
+.reply{background:#f8f3ff;border:1px solid #ddd0f0;padding:6px 8px;margin-top:5px}
+.reply .from{color:#8a50c0;font-size:11px}
+.reply .from::before{content:"┗ "}
+.reply .body{white-space:pre-wrap;word-break:break-word;margin:2px 0 2px;font-size:12px}
+
+/* ── 프로필 ── */
+.profile-card{border:1px solid var(--line2);background:var(--blue-lt);padding:10px;margin-bottom:10px}
+.profile-head{font-size:11px;color:var(--blue);border-bottom:1px dotted var(--line2);
+  padding-bottom:5px;margin-bottom:7px}
+.profile-body{white-space:pre-wrap;word-break:break-word;font-size:12px}
+
+/* ── 폼 박스 ── */
+.box{border:1px solid var(--line);background:var(--blue-lt);padding:10px;margin-top:10px}
+.box h3{font-size:11px;color:var(--blue);margin-bottom:7px;padding-bottom:4px;
+  border-bottom:1px dotted var(--line2)}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.half{flex:1;min-width:110px}
+input[type=text],input[type=password],textarea{
+  font-family:inherit;font-size:12px;color:var(--ink);
+  border:1px solid var(--line);background:#fff;padding:5px 7px;width:100%;
+}
+input:focus,textarea:focus{outline:1px solid var(--blue);border-color:var(--blue)}
+textarea{min-height:60px;resize:vertical}
+.hint{font-size:10px;color:var(--muted);margin-top:-2px;margin-bottom:4px}
+.err{color:var(--pink);font-size:11px;margin-top:4px}
+
+/* ── 버튼 ── */
+button{font-family:inherit;font-size:11px;cursor:pointer}
+.btn{
+  color:#fff;background:var(--blue);
+  border:1px solid #4a8aac;
+  padding:4px 10px;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{filter:brightness(.93)}
+.btn.pink{background:var(--pink);border-color:#c05070}
+.btn.ghost{background:#f0f5f9;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--line2)}
+.btn.sm{font-size:10px;padding:2px 7px}
+
+/* ── 빈 상태 ── */
+.empty{color:var(--muted);font-size:11px;text-align:center;padding:14px}
+
+/* ── 푸터 ── */
+.foot{font-size:10px;color:var(--muted);text-align:center;
+  padding:8px;border-top:1px solid var(--line2);background:#f4fbff}
 </style>
 </head>
 <body>
+<div class="ver">v2.0</div>
 <div class="frame">
-  <div class="titlebar">♡ 미니홈피 방명록 <small>PMBA 14기 · 밀라노 from Bocconi</small></div>
-  <div class="marquee"><span>★ 김상원 교수님 생신 축하드립니다 ★ 밀라노 원우들 사랑합니다 ♡ 6월 28일 오후 2시, 다 같이 개봉합니다! ★ 비번 적은 글은 미공개 기간에도 본인이 열어볼 수 있어요 ★</span></div>
+  <div class="tbar">
+    <span class="tbar-ico">♡</span>
+    <span class="tbar-ttl">밀라노에서 남기는 롤링페이퍼</span>
+    <span class="tbar-sub">KAIST PMBA 14기 · Bocconi School of Management</span>
+    <span class="tbar-btn">─ □ ✕</span>
+  </div>
+  <div class="mq"><span>★ 김상원 교수님 생신 축하드립니다 ★ 밀라노 원우들 사랑합니다 ♡ 2026.06.28 오후 2시 전체 개봉 ★ 비밀번호를 적어야 미공개 기간에도 본인 글을 열어볼 수 있어요 ★</span></div>
   <div id="demoflag"></div>
   <div id="app" class="pad"></div>
-  <div class="foot">made for KAIST PMBA 14기 · 둥근 픽셀 감성 &#643;&#9825;&#612;</div>
+  <div class="foot">made with ♡ for KAIST PMBA 14기 · 밀라노 원정대</div>
 </div>
 
 <script>
-/* ====== 설정 (비우면 데모 모드) ====== */
+/* ──────────────────────────────────────
+   v2.0 · 싸이월드 감성 롤링페이퍼
+   ────────────────────────────────────── */
 const CONFIG = {
   BIN_ID:     "6a3d569eda38895dfefe4dcc",
   ACCESS_KEY: "$2a$10$zfDB3ryxEKXBRnukHde8yO98Y6B.eRAGlTHJOsYH3kDQjG2T5cS5a",
-  UNLOCK_AT:  "2026-06-28T05:00:00.000Z"   // KST 06-28 14:00
+  UNLOCK_AT:  "2026-06-28T05:00:00.000Z"
 };
 
 const NICKS = [
   "경통 포기자","밀라노 불주먹","푸라닭","복혼이","시덱 주문 완료","조선미인",
   "밀라노 흔남","올리브유장발장","13번째수강생오터","한우사줘요","갤럭시스냅샷","라면먹고갈래","1일1피자"
 ];
-
 const RECIPIENTS = [
   { id:"ksangwon",  name:"김상원", title:"교수님", isVip:true },
-  { id:"kgayoung",  name:"김가영" },{ id:"kminjun",   name:"김민준" },
-  { id:"kjuhee",    name:"김주희" },{ id:"kjinhyun",  name:"김진현" },
-  { id:"sseongtae", name:"심성태" },{ id:"yboyoon",   name:"양보윤" },
-  { id:"lseungjae", name:"이승재" },{ id:"lwontae",   name:"이원태" },
-  { id:"jjikhan",   name:"정직한" },{ id:"jhyunju",   name:"정현주" },
-  { id:"jhyunji",   name:"조현지" },{ id:"cpilseong", name:"최필성" }
+  { id:"kgayoung",  name:"김가영" },{ id:"kminjun",  name:"김민준" },
+  { id:"kjuhee",    name:"김주희" },{ id:"kjinhyun", name:"김진현" },
+  { id:"sseongtae", name:"심성태" },{ id:"yboyoon",  name:"양보윤" },
+  { id:"lseungjae", name:"이승재" },{ id:"lwontae",  name:"이원태" },
+  { id:"jjikhan",   name:"정직한" },{ id:"jhyunju",  name:"정현주" },
+  { id:"jhyunji",   name:"조현지" },{ id:"cpilseong",name:"최필성" }
 ];
 
-/* 이름 양옆 데코(사람마다 고정) */
-const FRAMES = [
-  ["⋆｡˚ ","˚｡⋆"],["✿ "," ✿"],["｡⋆୨ ","୧⋆｡"],["☆彡 ","彡☆"],["ʚ "," ɞ"],
-  ["•° "," °•"],["꒰ ","꒱"],["☞ "," ☜"],["✧･ﾟ "," ﾟ･✧"],["♬ "," ♬"],
-  ["❀ "," ❀"],["⊹˚ ","˚⊹"],["☄ "," ☄"]
+/* 이름 데코 – id 해시로 고정 */
+const FRAMES=[
+  ["｡✿ "," ✿｡"],["☆彡 "," 彡☆"],["꒰ ","꒱"],["ʚ "," ɞ"],
+  ["·˚ ","˚·"],["♬ "," ♬"],["◇ "," ◇"],["⌒｡⌒ ",""],
+  ["°• "," •°"],["⊹ "," ⊹"],["✧ "," ✧"],["» "," «"]
 ];
 function decoName(r){
-  if(r.isVip) return {l:"👑 ✦ ", r:" ✦ 👑"};
+  if(r.isVip) return {l:"★ ",r:" ★"};
   let h=0; for(const c of r.id) h=(h*31+c.charCodeAt(0))>>>0;
-  const f=FRAMES[h%FRAMES.length]; return {l:f[0], r:f[1]};
+  const f=FRAMES[h%FRAMES.length]; return {l:f[0],r:f[1]};
 }
+function label(r){ const d=decoName(r); return d.l+r.name+(r.title?" "+r.title:"")+d.r; }
 
-/* ====== 런타임 ====== */
+/* ── 런타임 ── */
 const DEMO = !CONFIG.BIN_ID || !CONFIG.ACCESS_KEY;
-const API = "https://api.jsonbin.io/v3/b/" + CONFIG.BIN_ID;
-let previewOpen = false, wasLocked = true, lastSync = "", DATA = null;
-const ui = { tab:"gb", editing:null, replying:null, editingProfile:false, unsealed:new Set() };
+const API  = "https://api.jsonbin.io/v3/b/"+CONFIG.BIN_ID;
+let DATA=null, lastSync="", previewOpen=false, wasLocked=true;
+const ui = {tab:"gb", editing:null, replying:null, editingProfile:false, unsealed:new Set()};
 
 let demoStore = {
-  config:{ unlockAt:CONFIG.UNLOCK_AT },
-  recipients:RECIPIENTS,
-  profiles:{ ksangwon:{ content:"밀라노에서 함께한 14기 원우 여러분, 모두 고마웠어요!", pwHash:null, updatedAt:"2026-06-24T00:00:00Z" } },
+  config:{unlockAt:CONFIG.UNLOCK_AT}, profiles:{},
   messages:[
-    { id:"m1", toId:"ksangwon", from:"13번째수강생오터", isAutoNick:true,
-      content:"교수님 생신 축하드립니다! 경영통계 덕분에 회귀분석이 안 무서워요 ☺", pwHash:null, createdAt:"2026-06-24T09:00:00Z",
-      replies:[{ id:"r1", from:"본인", content:"고마워요~ 다들 고생 많았어요 :)", pwHash:null, createdAt:"2026-06-24T10:00:00Z" }] },
-    { id:"m3", toId:"sseongtae", from:"푸라닭", isAutoNick:true,
-      content:"성태형 덕에 IL CONTO 정산 한 번에 끝! 한우는 형이 사주는 걸로!", pwHash:null, createdAt:"2026-06-24T12:00:00Z", replies:[] }
+    {id:"m1",toId:"ksangwon",from:"13번째수강생오터",isAutoNick:true,
+     content:"교수님 생신 진심으로 축하드립니다! 경영통계 덕에 회귀분석이 이젠 친구예요 :)",
+     pwHash:null,createdAt:"2026-06-24T09:00:00Z",replies:[
+       {id:"r1",from:"고마운 주인",content:"다들 밀라노에서 고생 많았어요!",pwHash:null,createdAt:"2026-06-24T10:00:00Z"}
+     ]},
+    {id:"m2",toId:"sseongtae",from:"복혼이",isAutoNick:true,
+     content:"성태형 덕에 IL CONTO 정산 완벽! 한우 약속 잊지 마요.",
+     pwHash:null,createdAt:"2026-06-24T11:00:00Z",replies:[]}
   ]
 };
 
-/* ---- 유틸 ---- */
-const $ = (id)=>document.getElementById(id);
-const esc = (s)=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
-const rndNick = ()=>NICKS[Math.floor(Math.random()*NICKS.length)];
-const uid = (p)=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+/* ── 유틸 ── */
+const $  = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+const rndNick = () => NICKS[Math.floor(Math.random()*NICKS.length)];
+const uid = p  => p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 async function sha256(t){
   const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));
   return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
@@ -204,12 +292,14 @@ function unlockMs(){ return Date.parse((DATA&&DATA.config&&DATA.config.unlockAt)
 function isOpen(){ return previewOpen || Date.now()>=unlockMs(); }
 function countdownText(){
   let d=unlockMs()-Date.now(); if(d<=0) return "개봉되었습니다!";
-  const day=Math.floor(d/864e5); d%=864e5; const h=Math.floor(d/36e5); d%=36e5;
-  const m=Math.floor(d/6e4); const s=Math.floor(d%6e4/1000);
-  return `개봉까지 D-${day} · ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  const day=Math.floor(d/864e5); d%=864e5;
+  const h=String(Math.floor(d/36e5)).padStart(2,"0"); d%=36e5;
+  const m=String(Math.floor(d/6e4)).padStart(2,"0");
+  const s=String(Math.floor(d%6e4/1000)).padStart(2,"0");
+  return `D-${day}  ${h}:${m}:${s}`;
 }
 
-/* ---- 데이터 IO ---- */
+/* ── IO ── */
 async function fetchData(){
   let d;
   if(DEMO){ d=structuredClone(demoStore); }
@@ -230,175 +320,186 @@ async function putData(data){
   if(!r.ok) throw new Error("저장 실패 ("+r.status+")");
 }
 async function mutate(fn){
-  const fresh=await fetchData();
-  await fn(fresh);
-  await putData(fresh);
-  DATA=fresh; render();
+  const fresh=await fetchData(); await fn(fresh); await putData(fresh); DATA=fresh; render();
 }
 async function refresh(btn){
-  try{ if(btn){btn.disabled=true;btn.textContent="갱신중…";}
+  try{
+    if(btn){btn.disabled=true;btn.textContent="갱신 중…";}
     DATA=await fetchData(); render();
-  }catch(e){ alert("새로고침 실패: "+e.message); if(btn){btn.disabled=false;btn.textContent="↻ 새로고침";} }
+  }catch(e){
+    alert("새로고침 실패: "+e.message);
+    if(btn){btn.disabled=false;btn.textContent="↻ 새로고침";}
+  }
 }
 
-/* ---- 라우팅 ---- */
+/* ── 라우팅 ── */
 function currentId(){ const h=location.hash.replace(/^#\/?/,""); return RECIPIENTS.find(r=>r.id===h)?h:null; }
 function go(id){ location.hash="#/"+id; }
-window.addEventListener("hashchange",()=>{ ui.tab="gb";ui.editing=null;ui.replying=null;ui.editingProfile=false;ui.unsealed=new Set(); render(); });
+window.addEventListener("hashchange",()=>{
+  ui.tab="gb";ui.editing=null;ui.replying=null;ui.editingProfile=false;ui.unsealed=new Set(); render();
+});
 
-/* ---- 공통 조각 ---- */
+/* ── 공통 조각 ── */
 function utilRow(extra=""){
   return `<div class="util">${extra}
-    <button class="refresh" onclick="refresh(this)">↻ 새로고침</button>
-    <span class="updated">${lastSync?("마지막 갱신 "+lastSync):""}</span></div>`;
+    <button class="btn ghost rf-btn" onclick="refresh(this)">↻ 새로고침</button>
+    <span class="updated">${lastSync?"갱신 "+lastSync:""}</span>
+  </div>`;
 }
 function lockBanner(){
-  if(isOpen()) return `<div class="lockban openban">🔓 개봉 완료! 모두의 마음을 확인하세요 ♡</div>`;
-  return `<div class="lockban">🔒 <b>비밀편지 보관 중</b> — 한국시간 2026.06.28 14:00 개봉 예정
+  if(isOpen()) return `<div class="lockban openban">🔓 개봉 완료! 모두의 마음을 읽어보세요 ♡</div>`;
+  return `<div class="lockban">🔒 <b>비밀편지 보관 중</b> &nbsp;·&nbsp; 한국시간 2026.06.28 오후 2시 개봉 예정
     <span class="cd" data-countdown>${countdownText()}</span></div>`;
 }
 
-/* ---- 렌더 ---- */
+/* ── 렌더 ── */
 function render(){
-  if(!DATA){ $("app").innerHTML=`<div class="empty">불러오는 중…</div>`; return; }
+  if(!DATA){$("app").innerHTML=`<div class="empty">불러오는 중…</div>`;return;}
   renderDemoFlag();
   const id=currentId();
-  $("app").innerHTML = id ? viewGuestbook(id) : viewLobby();
+  $("app").innerHTML=id?viewGuestbook(id):viewLobby();
 }
 function renderDemoFlag(){
-  if(!DEMO){ $("demoflag").innerHTML=""; return; }
-  $("demoflag").innerHTML=`데모 모드 (저장 안 됨) · 설정값 채우면 라이브`
-    +`<button class="tiny ghost" onclick="togglePreview()">${previewOpen?"잠금 화면 보기":"개봉 후 미리보기"}</button>`;
+  if(!DEMO){$("demoflag").innerHTML="";return;}
+  $("demoflag").innerHTML=`데모 모드 · 저장 안 됨 · CONFIG 채우면 라이브`
+    +`<button class="btn sm ghost" style="margin-left:8px" onclick="togglePreview()">${previewOpen?"잠금 화면 보기":"개봉 후 미리보기"}</button>`;
 }
-function togglePreview(){ previewOpen=!previewOpen; render(); }
+function togglePreview(){previewOpen=!previewOpen;render();}
 
+/* ── 로비 ── */
 function viewLobby(){
-  const folder=(r)=>{
+  const card=r=>{
     const c=DATA.messages.filter(m=>m.toId===r.id).length, d=decoName(r);
-    return `<div class="mini ${r.isVip?'vip':''}" onclick="go('${r.id}')">
+    return `<div class="mini${r.isVip?" vip":""}" onclick="go('${r.id}')">
       <div class="mini-bar">
-        <span class="mini-title">${d.l}${esc(r.name)}${r.title?' '+esc(r.title):''}${d.r}</span>
-        <span class="mini-win">─ ▢ ✕</span>
+        <span class="mini-bar-ttl">${esc(d.l+r.name+(r.title?" "+r.title:"")+d.r)}</span>
+        <span class="mini-bar-btns">─ □ ✕</span>
       </div>
-      <div class="mini-bd">
-        <span class="mini-ico">${r.isVip?'🎂':'🏠'}</span>
-        <span class="mini-cnt">방명록 <b>${c}</b>통</span>
-        <span class="mini-enter">입장하기 ▶</span>
-      </div></div>`;
+      <div class="mini-body">
+        <span class="mini-ico">${r.isVip?"🎂":"🏠"}</span>
+        <span class="mini-badge">방명록 ${c}통</span>
+        <span class="mini-enter">입장 ▶</span>
+      </div>
+    </div>`;
   };
-  const vip=RECIPIENTS.filter(r=>r.isVip).map(folder).join("");
-  const rest=RECIPIENTS.filter(r=>!r.isVip).map(folder).join("");
+  const vip=RECIPIENTS.filter(r=>r.isVip).map(card).join("");
+  const rest=RECIPIENTS.filter(r=>!r.isVip).map(card).join("");
   return `${utilRow()}${lockBanner()}
-    <p class="lead">미니홈피 주인을 골라 들어가세요. 봉투 갯수로 몇 분이 다녀갔는지 미리 볼 수 있어요.</p>
+    <p class="lead">미니홈피 주인을 선택하세요. 방명록 통 수는 개봉 전에도 볼 수 있어요.</p>
     <div class="grid">${vip}${rest}</div>`;
 }
 
+/* ── 방명록 뷰 ── */
 function viewGuestbook(id){
   const r=RECIPIENTS.find(x=>x.id===id), d=decoName(r);
-  const head=`${utilRow(`<a href="#/" class="backlink">← 미니홈피 목록</a>`)}
+  const head=`${utilRow(`<a href="#/" class="backlink">← 목록으로</a>`)}
     <div class="tabs">
-      <div class="tab ${ui.tab==='gb'?'on':''}" onclick="setTab('gb')">방명록</div>
-      <div class="tab ${ui.tab==='profile'?'on':''}" onclick="setTab('profile')">프로필</div>
+      <div class="tab${ui.tab==="gb"?" on":""}" onclick="setTab('gb')">방명록</div>
+      <div class="tab${ui.tab==="pf"?" on":""}" onclick="setTab('pf')">프로필</div>
     </div>
-    <h2 class="ghead">${d.l}${esc(r.name)}${r.title?' '+esc(r.title):''}${d.r}</h2>`;
-  if(ui.tab==='profile') return head+renderProfile(id);
-
+    <div class="ghead">${esc(label(r))} 님의 미니홈피</div>`;
+  if(ui.tab==="pf") return head+renderProfile(id);
   const list=DATA.messages.filter(m=>m.toId===id), open=isOpen();
   const body=list.length
-    ? list.map(m=>open?openCard(m,false):sealedCard(m)).join("")
-    : `<div class="empty">아직 첫 방명록이 없어요. 첫 마음을 남겨보세요 ♡</div>`;
+    ?list.map(m=>open?openCard(m,false):sealedCard(m)).join("")
+    :`<div class="empty">아직 첫 방명록이 없어요. 첫 마음을 남겨보세요 ♡</div>`;
   return head+lockBanner()+body+writeForm(id);
 }
-function setTab(t){ ui.tab=t;ui.editing=null;ui.replying=null;ui.editingProfile=false; render(); }
+function setTab(t){ui.tab=t;ui.editing=null;ui.replying=null;ui.editingProfile=false;render();}
 
-/* ---- 프로필 ---- */
-function profileOf(id){ return (DATA.profiles&&DATA.profiles[id])||null; }
+/* ── 프로필 ── */
+function profileOf(id){return (DATA.profiles&&DATA.profiles[id])||null;}
 function renderProfile(id){
   const r=RECIPIENTS.find(x=>x.id===id), p=profileOf(id);
   if(ui.editingProfile) return profileForm(id,p);
-  const body=p&&p.content
-    ? `<div class="profile-body">${esc(p.content)}</div>`
-    : `<div class="empty">아직 소개글이 없어요. ${esc(r.name)}님, 모두에게 한마디 남겨보세요!</div>`;
   return `<div class="profile-card">
-      <div class="profile-head">✎ ${esc(r.name)} 님이 모두에게</div>
-      ${body}
+      <div class="profile-head">✎ ${esc(r.name)}${r.title?" "+esc(r.title):""} 님이 모두에게</div>
+      ${p&&p.content
+        ?`<div class="profile-body">${esc(p.content)}</div>`
+        :`<div class="empty">소개글이 없어요. ${esc(r.name)}님, 모두에게 한 마디 남겨보세요!</div>`}
     </div>
-    <button class="pink" onclick="editProfile()">${p&&p.content?'소개글 수정':'소개글 작성'}</button>`;
+    <button class="btn pink" onclick="editProfile()">${p&&p.content?"소개글 수정":"소개글 작성"}</button>`;
 }
-function editProfile(){ ui.editingProfile=true; render(); }
-function cancelProfile(){ ui.editingProfile=false; render(); }
+function editProfile(){ui.editingProfile=true;render();}
+function cancelProfile(){ui.editingProfile=false;render();}
 function profileForm(id,p){
-  return `<div class="box">
-    <h3>✎ 모두에게 하고 싶은 말</h3>
-    <div class="row"><textarea id="pf_body" maxlength="800" placeholder="여기에 소개글을 적어주세요 ♡">${p&&p.content?esc(p.content):''}</textarea></div>
-    <div class="row"><input id="pf_pw" type="password" maxlength="20" placeholder="${p&&p.pwHash?'기존 비밀번호 입력':'비밀번호 (수정용, 선택)'}"></div>
-    <div class="hint">※ 비밀번호를 정해두면 본인만 수정할 수 있어요.${p&&p.pwHash?' 이 소개글은 비밀번호로 보호되어 있어요.':''}</div>
+  return `<div class="box"><h3>모두에게 하고 싶은 말</h3>
+    <div class="row"><textarea id="pf_body" maxlength="800" placeholder="여기에 적어주세요 ♡">${p&&p.content?esc(p.content):""}</textarea></div>
+    <div class="row half"><input id="pf_pw" type="password" maxlength="20" placeholder="${p&&p.pwHash?"기존 비밀번호 입력":"비밀번호 (수정용, 선택)"}"></div>
+    <div class="hint">비밀번호를 정해두면 본인만 수정할 수 있어요.${p&&p.pwHash?" 이 소개글은 비밀번호로 보호되어 있어요.":""}</div>
     <div class="err" id="pf_err"></div>
-    <div style="margin-top:8px">
-      <button class="pink" onclick="submitProfile('${id}')">저장</button>
-      <button class="ghost" onclick="cancelProfile()">취소</button>
+    <div style="margin-top:8px;display:flex;gap:6px">
+      <button class="btn pink" onclick="submitProfile('${id}')">저장</button>
+      <button class="btn ghost" onclick="cancelProfile()">취소</button>
     </div></div>`;
 }
 async function submitProfile(id){
-  const body=$("pf_body").value.trim(), pw=$("pf_pw").value;
-  if(!body){ $("pf_err").textContent="내용을 입력해주세요."; return; }
+  const body=$("pf_body").value.trim(),pw=$("pf_pw").value;
+  if(!body){$("pf_err").textContent="내용을 입력해주세요.";return;}
   const ex=profileOf(id);
-  if(ex&&ex.pwHash){ if(await sha256(pw)!==ex.pwHash){ $("pf_err").textContent="비밀번호가 일치하지 않습니다."; return; } }
-  const pwHash = ex&&ex.pwHash ? ex.pwHash : (pw?await sha256(pw):null);
+  if(ex&&ex.pwHash&&await sha256(pw)!==ex.pwHash){$("pf_err").textContent="비밀번호가 일치하지 않습니다.";return;}
+  const pwHash=ex&&ex.pwHash?ex.pwHash:(pw?await sha256(pw):null);
   try{
-    await mutate(d=>{ if(!d.profiles)d.profiles={}; d.profiles[id]={content:body,pwHash,updatedAt:new Date().toISOString()}; });
+    await mutate(d=>{if(!d.profiles)d.profiles={};d.profiles[id]={content:body,pwHash,updatedAt:new Date().toISOString()};});
     ui.editingProfile=false;
-  }catch(e){ $("pf_err").textContent=e.message; }
+  }catch(e){$("pf_err").textContent=e.message;}
 }
 
-/* ---- 방명록 카드 ---- */
+/* ── 봉인 카드 ── */
 function sealedCard(m){
   if(ui.unsealed.has(m.id)) return openCard(m,true);
-  return `<div class="msg"><div class="sealed">
-      <span class="ico">💌</span>
-      <span><span class="seal-from">From. ${esc(m.from)}</span><br>
-      <span class="seal-note">비밀편지입니다 · 개봉 전</span></span>
+  return `<div class="msg">
+    <div class="sealed">
+      <span class="sico">💌</span>
+      <span><span class="sfrom">From. ${esc(m.from)}</span>
+            <span class="snote">비밀편지 · 개봉 전</span></span>
     </div>
-    <div class="acts"><button class="tiny ghost" onclick="openSealed('${m.id}')">🔑 내 글 열기</button></div></div>`;
+    <div class="acts" style="margin-top:6px">
+      <button class="btn sm ghost" onclick="openSealed('${m.id}')">🔑 내 글 열기</button>
+    </div>
+  </div>`;
 }
 async function openSealed(id){
-  const m=DATA.messages.find(x=>x.id===id); if(!m) return;
-  if(!m.pwHash){ alert("이 글은 비밀번호가 없어 미리 열 수 없어요."); return; }
-  const pw=prompt("이 글을 쓸 때 입력한 비밀번호를 입력하세요"); if(pw===null) return;
-  if(await sha256(pw)!==m.pwHash){ alert("비밀번호가 일치하지 않습니다."); return; }
-  ui.unsealed.add(id); render();
+  const m=DATA.messages.find(x=>x.id===id);if(!m)return;
+  if(!m.pwHash){alert("이 글은 비밀번호가 없어 미리 열 수 없어요.");return;}
+  const pw=prompt("작성 시 입력한 비밀번호를 입력하세요");if(pw===null)return;
+  if(await sha256(pw)!==m.pwHash){alert("비밀번호가 일치하지 않습니다.");return;}
+  ui.unsealed.add(id);render();
 }
-function reseal(id){ ui.unsealed.delete(id); render(); }
+function reseal(id){ui.unsealed.delete(id);render();}
 
+/* ── 열린 카드 ── */
 function openCard(m,duringLock){
   if(ui.editing==="m:"+m.id) return editForm("m",m,m.id);
   const editable=!!m.pwHash;
   const acts=`<div class="acts">
-      ${duringLock?'':`<button class="tiny pink" onclick="startReply('${m.id}')">답글</button>`}
-      ${editable?`<button class="tiny ghost" onclick="startEdit('m','${m.id}','${m.id}')">수정</button>
-        <button class="tiny ghost" onclick="doDelete('m','${m.id}','${m.id}')">삭제</button>`:''}
-      ${duringLock?`<button class="tiny ghost" onclick="reseal('${m.id}')">다시 봉인</button>`:''}
-    </div>`;
+    ${duringLock?"":`<button class="btn sm pink" onclick="startReply('${m.id}')">답글</button>`}
+    ${editable?`<button class="btn sm ghost" onclick="startEdit('m','${m.id}','${m.id}')">수정</button>
+                <button class="btn sm ghost" onclick="doDelete('m','${m.id}','${m.id}')">삭제</button>`:""}
+    ${duringLock?`<button class="btn sm ghost" onclick="reseal('${m.id}')">다시 봉인</button>`:""}
+  </div>`;
   const reps=(m.replies||[]).map(rp=>{
     if(ui.editing==="r:"+m.id+":"+rp.id) return editForm("r",rp,m.id);
-    const re=!!rp.pwHash;
-    return `<div class="reply"><div class="from">${esc(rp.from)}</div>
+    return `<div class="reply">
+      <div class="from">${esc(rp.from)}</div>
       <div class="body">${esc(rp.content)}</div>
-      ${re?`<button class="tiny ghost" onclick="startEdit('r','${rp.id}','${m.id}')">수정</button>
-        <button class="tiny ghost" onclick="doDelete('r','${rp.id}','${m.id}')">삭제</button>`:''}</div>`;
-  }).join("");
-  const replyBox=ui.replying===m.id?replyForm(m.id):"";
-  return `<div class="msg">
-      ${duringLock?'<div class="peek">🔓 미리 열어본 내 글 (나만 보임)</div>':''}
-      <div class="from">${esc(m.from)}</div>
-      <div class="body">${esc(m.content)}</div>
-      ${acts}
-      ${reps?`<div class="replies">${reps}</div>`:""}
-      ${replyBox}
+      ${rp.pwHash?`<div class="acts" style="margin-top:3px">
+        <button class="btn sm ghost" onclick="startEdit('r','${rp.id}','${m.id}')">수정</button>
+        <button class="btn sm ghost" onclick="doDelete('r','${rp.id}','${m.id}')">삭제</button>
+      </div>`:""}
     </div>`;
+  }).join("");
+  return `<div class="msg">
+    ${duringLock?`<div class="peek-badge">🔓 내가 미리 열어본 글</div>`:""}
+    <div class="from">${esc(m.from)}</div>
+    <div class="body">${esc(m.content)}</div>
+    ${acts}
+    ${reps?`<div class="replies">${reps}</div>`:""}
+    ${ui.replying===m.id?replyForm(m.id):""}
+  </div>`;
 }
 
-/* ---- 폼 ---- */
+/* ── 폼들 ── */
 function writeForm(id){
   return `<div class="box"><h3>✎ 방명록 남기기</h3>
     <div class="row">
@@ -406,106 +507,108 @@ function writeForm(id){
       <div class="half"><input id="w_pw" type="password" maxlength="20" placeholder="비밀번호 (수정·삭제용, 선택)"></div>
     </div>
     <div class="row"><textarea id="w_body" maxlength="1000" placeholder="따뜻한 한마디를 남겨주세요 ♡"></textarea></div>
-    <div class="hint">※ 비밀번호를 적으면 미공개 기간에도 본인이 열어보고 수정·삭제할 수 있어요.</div>
+    <div class="hint">비밀번호를 적으면 미공개 기간에도 🔑 내 글 열기로 열어보고 수정·삭제할 수 있어요.</div>
     <div class="err" id="w_err"></div>
-    <div style="margin-top:8px"><button class="pink" onclick="submitMsg('${id}')">방명록 등록</button></div></div>`;
+    <div style="margin-top:8px"><button class="btn pink" onclick="submitMsg('${id}')">방명록 등록</button></div>
+  </div>`;
 }
 function replyForm(mid){
-  return `<div class="box" style="margin-top:10px"><h3>┗ 답글 달기</h3>
+  return `<div class="box" style="margin-top:8px"><h3>┗ 답글 달기</h3>
     <div class="row">
       <div class="half"><input id="rp_from" type="text" maxlength="20" placeholder="From (비우면 랜덤 닉네임)"></div>
       <div class="half"><input id="rp_pw" type="password" maxlength="20" placeholder="비밀번호 (선택)"></div>
     </div>
     <div class="row"><textarea id="rp_body" maxlength="600" placeholder="답글 내용"></textarea></div>
     <div class="err" id="rp_err"></div>
-    <div style="margin-top:8px">
-      <button class="pink" onclick="submitReply('${mid}')">답글 등록</button>
-      <button class="ghost" onclick="cancelForms()">취소</button>
+    <div style="margin-top:8px;display:flex;gap:6px">
+      <button class="btn pink" onclick="submitReply('${mid}')">답글 등록</button>
+      <button class="btn ghost" onclick="cancelForms()">취소</button>
     </div></div>`;
 }
 function editForm(kind,obj,mid){
   return `<div class="box"><h3>✎ 내용 수정</h3>
     <div class="row"><textarea id="ed_body" maxlength="1000">${esc(obj.content)}</textarea></div>
-    <div class="row"><input id="ed_pw" type="password" maxlength="20" placeholder="작성 시 입력한 비밀번호"></div>
+    <div class="row half"><input id="ed_pw" type="password" maxlength="20" placeholder="작성 시 입력한 비밀번호"></div>
     <div class="err" id="ed_err"></div>
-    <div style="margin-top:8px">
-      <button class="pink" onclick="submitEdit('${kind}','${obj.id}','${mid}')">저장</button>
-      <button class="ghost" onclick="cancelForms()">취소</button>
+    <div style="margin-top:8px;display:flex;gap:6px">
+      <button class="btn pink" onclick="submitEdit('${kind}','${obj.id}','${mid}')">저장</button>
+      <button class="btn ghost" onclick="cancelForms()">취소</button>
     </div></div>`;
 }
 
-/* ---- 액션 ---- */
-function cancelForms(){ ui.editing=null;ui.replying=null; render(); }
-function startReply(mid){ ui.editing=null;ui.replying=mid; render(); }
-function startEdit(kind,oid,mid){ ui.replying=null;ui.editing=kind+":"+(kind==="r"?mid+":":"")+oid; render(); }
+/* ── 액션 ── */
+function cancelForms(){ui.editing=null;ui.replying=null;render();}
+function startReply(mid){ui.editing=null;ui.replying=mid;render();}
+function startEdit(kind,oid,mid){ui.replying=null;ui.editing=kind+":"+(kind==="r"?mid+":":"")+oid;render();}
 
 async function submitMsg(toId){
-  const from=$("w_from").value.trim(), body=$("w_body").value.trim(), pw=$("w_pw").value;
-  if(!body){ $("w_err").textContent="내용을 입력해주세요."; return; }
-  const msg={ id:uid("m"),toId,from:from||rndNick(),isAutoNick:!from,
-    content:body,pwHash:pw?await sha256(pw):null,createdAt:new Date().toISOString(),replies:[] };
-  try{ await mutate(d=>{ d.messages.push(msg); }); }
-  catch(e){ $("w_err").textContent=e.message; }
+  const from=$("w_from").value.trim(),body=$("w_body").value.trim(),pw=$("w_pw").value;
+  if(!body){$("w_err").textContent="내용을 입력해주세요.";return;}
+  const msg={id:uid("m"),toId,from:from||rndNick(),isAutoNick:!from,
+    content:body,pwHash:pw?await sha256(pw):null,createdAt:new Date().toISOString(),replies:[]};
+  try{await mutate(d=>{d.messages.push(msg);});}
+  catch(e){$("w_err").textContent=e.message;}
 }
 async function submitReply(mid){
-  const from=$("rp_from").value.trim(), body=$("rp_body").value.trim(), pw=$("rp_pw").value;
-  if(!body){ $("rp_err").textContent="내용을 입력해주세요."; return; }
-  const rep={ id:uid("r"),from:from||rndNick(),content:body,
-    pwHash:pw?await sha256(pw):null,createdAt:new Date().toISOString() };
+  const from=$("rp_from").value.trim(),body=$("rp_body").value.trim(),pw=$("rp_pw").value;
+  if(!body){$("rp_err").textContent="내용을 입력해주세요.";return;}
+  const rep={id:uid("r"),from:from||rndNick(),content:body,
+    pwHash:pw?await sha256(pw):null,createdAt:new Date().toISOString()};
   try{
-    await mutate(d=>{ const m=d.messages.find(x=>x.id===mid); if(m){ m.replies=m.replies||[]; m.replies.push(rep);} });
+    await mutate(d=>{const m=d.messages.find(x=>x.id===mid);if(m){m.replies=m.replies||[];m.replies.push(rep);}});
     ui.replying=null;
-  }catch(e){ $("rp_err").textContent=e.message; }
+  }catch(e){$("rp_err").textContent=e.message;}
 }
 async function submitEdit(kind,oid,mid){
-  const body=$("ed_body").value.trim(), pw=$("ed_pw").value;
-  if(!body){ $("ed_err").textContent="내용을 입력해주세요."; return; }
+  const body=$("ed_body").value.trim(),pw=$("ed_pw").value;
+  if(!body){$("ed_err").textContent="내용을 입력해주세요.";return;}
   const h=await sha256(pw);
   try{
     let ok=true;
     await mutate(d=>{
       const m=d.messages.find(x=>x.id===mid);
       const t=kind==="m"?m:(m&&(m.replies||[]).find(x=>x.id===oid));
-      if(!t||t.pwHash!==h){ ok=false; return; }
+      if(!t||t.pwHash!==h){ok=false;return;}
       t.content=body;
     });
-    if(!ok){ ui.editing=kind+":"+(kind==="r"?mid+":":"")+oid; render();
-      const el=$("ed_err"); if(el) el.textContent="비밀번호가 일치하지 않습니다."; }
+    if(!ok){ui.editing=kind+":"+(kind==="r"?mid+":":"")+oid;render();const el=$("ed_err");if(el)el.textContent="비밀번호가 일치하지 않습니다.";}
     else ui.editing=null;
-  }catch(e){ const el=$("ed_err"); if(el) el.textContent=e.message; }
+  }catch(e){const el=$("ed_err");if(el)el.textContent=e.message;}
 }
 async function doDelete(kind,oid,mid){
-  const pw=prompt("삭제하려면 작성 시 입력한 비밀번호를 입력하세요"); if(pw===null) return;
+  const pw=prompt("삭제하려면 작성 시 입력한 비밀번호를 입력하세요");if(pw===null)return;
   const h=await sha256(pw);
   try{
     let res="ok";
     await mutate(d=>{
-      const mi=d.messages.findIndex(x=>x.id===mid); if(mi<0){ res="없음"; return; }
+      const mi=d.messages.findIndex(x=>x.id===mid);if(mi<0){res="없음";return;}
       if(kind==="m"){
-        if(d.messages[mi].pwHash!==h){ res="비번"; return; }
+        if(d.messages[mi].pwHash!==h){res="비번";return;}
         d.messages.splice(mi,1);
       }else{
-        const reps=d.messages[mi].replies||[], ri=reps.findIndex(x=>x.id===oid);
-        if(ri<0){ res="없음"; return; }
-        if(reps[ri].pwHash!==h){ res="비번"; return; }
+        const reps=d.messages[mi].replies||[],ri=reps.findIndex(x=>x.id===oid);
+        if(ri<0){res="없음";return;}
+        if(reps[ri].pwHash!==h){res="비번";return;}
         reps.splice(ri,1);
       }
     });
     if(res==="비번") alert("비밀번호가 일치하지 않습니다.");
     else if(kind==="m") ui.unsealed.delete(mid);
-  }catch(e){ alert(e.message); }
+  }catch(e){alert(e.message);}
 }
 
-/* ---- 시작 ---- */
+/* ── 시작 ── */
 (async function init(){
-  try{ DATA=await fetchData(); }
-  catch(e){ $("app").innerHTML=`<div class="err">데이터를 불러오지 못했어요: ${esc(e.message)}<br>설정값과 네트워크를 확인하세요.</div>`; return; }
-  wasLocked=!isOpen(); render();
+  try{DATA=await fetchData();}
+  catch(e){$("app").innerHTML=`<div class="err" style="padding:20px">데이터를 불러오지 못했어요: ${esc(e.message)}</div>`;return;}
+  wasLocked=!isOpen();render();
   setInterval(()=>{
     document.querySelectorAll("[data-countdown]").forEach(el=>el.textContent=countdownText());
-    if(wasLocked && Date.now()>=unlockMs()){ wasLocked=false; render(); }
+    if(wasLocked&&Date.now()>=unlockMs()){wasLocked=false;render();}
   },1000);
 })();
 </script>
 </body>
 </html>
+HTMLEOF
+echo "bytes:"; wc -c < /mnt/user-data/outputs/index.html
