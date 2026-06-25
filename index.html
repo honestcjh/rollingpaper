@@ -223,7 +223,7 @@ button{font-family:inherit;font-size:11px;cursor:pointer}
     </div>
     <div class="tbar-btn">─ □ ✕</div>
   </div>
-  <div class="mq"><span>★ 김상원 교수님 생신 축하드립니다 ★ 밀라노 원우들 사랑합니다 ♡ 2026.06.28 오후 2시 전체 개봉 ★ 비밀번호를 적어야 미공개 기간에도 본인 글을 열어볼 수 있어요 ★</span></div>
+  <div class="mq"><span>★ 김상원 교수님 생신 축하드립니다 ★ 밀라노 원우들 사랑합니다 ♡ 2026.06.28 오후 2시 전체 개봉 ★ 비밀번호를 적어야 미공개 기간에도 본인 글을 보고 수정하거나 삭제할 수 있어요 ★</span></div>
   <div id="demoflag"></div>
   <div id="app" class="pad"></div>
   <div class="foot">made with ♡ for KAIST PMBA 14기 · 밀라노 원정대</div>
@@ -384,7 +384,7 @@ function viewLobby(){
       </div>
       <div class="mini-body">
         <span class="mini-ico">${r.isVip?"🎂":"🏠"}</span>
-        <span class="mini-badge">방명록 ${c}통</span>
+        <span class="mini-badge">방명록 ${c}개</span>
         <span class="mini-enter">입장 ▶</span>
       </div>
     </div>`;
@@ -392,7 +392,7 @@ function viewLobby(){
   const vip=RECIPIENTS.filter(r=>r.isVip).map(card).join("");
   const rest=RECIPIENTS.filter(r=>!r.isVip).map(card).join("");
   return `${utilRow()}${lockBanner()}
-    <p class="lead">미니홈피 주인을 선택하세요.<br>방명록 통 수는 개봉 전에도 볼 수 있어요.</p>
+    <p class="lead">미니홈피 주인을 선택하세요.<br>방명록 갯수는 개봉 전에도 볼 수 있어요.</p>
     <div class="grid">${vip}${rest}</div>`;
 }
 
